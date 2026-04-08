@@ -1,0 +1,29 @@
+<h2>
+  lista de Empleados
+</h2>
+<table class="table table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    @if (empleados$ | async; as empleados){
+      @for (item of empleados; track item.id) {
+        <tr>
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.apellido }}</td>
+          <td>{{ item.email }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="3">No se encontraron empleados.</td>
+        </tr>
+      }
+    }@else {
+      <p>Cargando empleados desde el servidor...</p>
+    }
+  </tbody>
+</table>
