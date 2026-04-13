@@ -29,7 +29,7 @@ public class User {
 	@Column(name = "status",  length = 60, nullable = false)
 	private Boolean status;
 
-	@Column(name = "password",  length = 60, nullable = false)
+	@Column(name = "password", nullable = false)
 	private String password;
 
 	@Column(name = "created_at",  length = 60, nullable = false)

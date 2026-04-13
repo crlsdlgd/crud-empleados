@@ -1,0 +1,5 @@
+docker network create my_network
+
+docker run -d --name postgres_test --network my_network -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=Pass_1992 -e POSTGRES_DB=postgres -p 5432:5432 -v postgres-data:/var/lib/postgresql/data postgres:13
+
+docker run -d --name pgadmin_container --network my_network -p 8080:80 -e PGADMIN_DEFAULT_EMAIL=crlsdlgd1992@gmail.com -e PGADMIN_DEFAULT_PASSWORD=Pass_1992 dpage/pgadmin4
