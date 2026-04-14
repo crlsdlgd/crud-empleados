@@ -3,6 +3,9 @@ package com.crud.demo.dto;
 public class LoginResponseDTO {
   private String token;
 
+  public LoginResponseDTO() {
+  }
+
   public String getToken() {
     return token;
   }
