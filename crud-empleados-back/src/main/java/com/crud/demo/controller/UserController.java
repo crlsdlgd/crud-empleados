@@ -3,6 +3,7 @@ package com.crud.demo.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,5 +35,11 @@ public class UserController {
   public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateDTO userCreateDTO) {
     UserResponseDTO dto = service.createUser(userCreateDTO);
     return ResponseEntity.ok(dto);
+  }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @GetMapping("/admin")
+  public String admin() {
+    return "Esto solo puede leerlo un admin";
   }
 }

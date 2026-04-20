@@ -1,18 +1,24 @@
 package com.crud.demo.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
 public class User {
-		
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -23,25 +29,30 @@ public class User {
 	@Column(name = "apellido", length = 60, nullable = false)
 	private String apellido;
 
-	@Column(name = "email",  length = 60, nullable = false, unique = true)
+	@Column(name = "email", length = 60, nullable = false, unique = true)
 	private String email;
 
-	@Column(name = "status",  length = 60, nullable = false)
+	@Column(name = "status", length = 60, nullable = false)
 	private Boolean status;
 
 	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "created_at",  length = 60, nullable = false)
+	@Column(name = "created_at", length = 60, nullable = false)
 	private Date createdAt;
 
-	@Column(name = "updated_at",  length = 60, nullable = false)
+	@Column(name = "updated_at", length = 60, nullable = false)
 	private Date updatedAt;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
 
 	public User() {
 	}
 
-	public User(String nombre, String apellido, String email, Boolean status, String password, Date createdAt, Date updatedAt) {
+	public User(String nombre, String apellido, String email, Boolean status, String password, Date createdAt,
+			Date updatedAt) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -116,8 +127,17 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
 	@Override
 	public String toString() {
-		return "Empleado{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", status=" + status + ", password=" + password + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
+		return "Empleado{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", status="
+				+ status + ", password=" + password + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
 	}
 }

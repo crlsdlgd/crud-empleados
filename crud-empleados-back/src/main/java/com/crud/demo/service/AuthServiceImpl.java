@@ -36,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     LoginResponseDTO response = new LoginResponseDTO();
-    response.setToken(jwtUtil.generateToken(user.getEmail()));
+    response.setToken(jwtUtil.generateToken(user));
     return response;
 
   }
