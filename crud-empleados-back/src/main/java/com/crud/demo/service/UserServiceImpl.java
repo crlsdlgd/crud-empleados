@@ -3,6 +3,8 @@ package com.crud.demo.service;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,9 @@ public class UserServiceImpl implements UserService {
     Role roleUser = roleRepository.findByName("ROLE_USER")
         .orElseThrow();
     user.setRoles(Set.of(roleUser));
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Long currentUserId = (Long) auth.getPrincipal();
+    user.setCreatedBy(currentUserId);
     User userSaved = userRepository.save(user);
     return userMapper.entityToResponseDTO(userSaved);
   }

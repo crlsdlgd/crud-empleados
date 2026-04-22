@@ -33,9 +33,9 @@ public class JwtUtil {
         .toList();
 
     return Jwts.builder()
-        .subject(user.getEmail())
+        .subject(String.valueOf(user.getId()))
         .claim("roles", roles)
-        .claim("userId", user.getId())
+        .claim("email", user.getEmail())
         .issuedAt(new Date())
         .expiration(new Date(System.currentTimeMillis() + 86400000))
         .signWith(key)
@@ -50,15 +50,15 @@ public class JwtUtil {
           .parseSignedClaims(token)
           .getPayload();
 
-      String email = claims.getSubject();
-
+      Long userId = Long.valueOf(claims.getSubject());
+      String email = claims.get("email", String.class);
       List<String> roles = claims.get("roles", List.class);
 
       List<SimpleGrantedAuthority> authorities = roles.stream()
           .map(SimpleGrantedAuthority::new)
           .toList();
 
-      return new UsernamePasswordAuthenticationToken(email, null, authorities);
+      return new UsernamePasswordAuthenticationToken(userId, null, authorities);
 
     } catch (Exception e) {
       throw new RuntimeException("Invalid token");
