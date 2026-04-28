@@ -50,7 +50,7 @@ public class JwtUtil {
           .parseSignedClaims(token)
           .getPayload();
 
-      String email = claims.getSubject();
+      Long userId = claims.get("userId", Long.class);
 
       List<String> roles = claims.get("roles", List.class);
 
@@ -58,7 +58,7 @@ public class JwtUtil {
           .map(SimpleGrantedAuthority::new)
           .toList();
 
-      return new UsernamePasswordAuthenticationToken(email, null, authorities);
+      return new UsernamePasswordAuthenticationToken(userId, null, authorities);
 
     } catch (Exception e) {
       throw new RuntimeException("Invalid token");

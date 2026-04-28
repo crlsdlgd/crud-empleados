@@ -55,4 +55,11 @@ public class UserServiceImpl implements UserService {
     User userSaved = userRepository.save(user);
     return userMapper.entityToResponseDTO(userSaved);
   }
+
+  @Override
+  public UserResponseDTO getUserById(Long id) {
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    return userMapper.entityToResponseDTO(user);
+  }
 }
