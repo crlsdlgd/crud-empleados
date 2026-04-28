@@ -33,9 +33,9 @@ public class JwtUtil {
         .toList();
 
     return Jwts.builder()
-        .subject(user.getEmail())
+        .subject(String.valueOf(user.getId()))
         .claim("roles", roles)
-        .claim("userId", user.getId())
+        .claim("email", user.getEmail())
         .issuedAt(new Date())
         .expiration(new Date(System.currentTimeMillis() + 86400000))
         .signWith(key)
