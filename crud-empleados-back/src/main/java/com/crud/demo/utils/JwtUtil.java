@@ -50,7 +50,7 @@ public class JwtUtil {
           .parseSignedClaims(token)
           .getPayload();
 
-      Long userId = claims.get("userId", Long.class);
+      Long userId = Long.parseLong(claims.getSubject());
 
       List<String> roles = claims.get("roles", List.class);
 

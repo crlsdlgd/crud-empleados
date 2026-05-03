@@ -45,7 +45,7 @@ public class UserController {
     return "Esto solo puede leerlo un admin";
   }
 
-  @PreAuthorize("hasRole('ADMIN') or authentication.principal == #id")
+  @PreAuthorize("hasRole('ADMIN') or authentication.principal.equals(#id)")
   @GetMapping("/{id}")
   public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
     UserResponseDTO user = service.getUserById(id);

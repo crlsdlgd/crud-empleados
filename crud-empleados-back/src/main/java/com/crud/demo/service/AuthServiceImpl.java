@@ -1,7 +1,9 @@
 package com.crud.demo.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.crud.demo.dto.LoginRequestDTO;
 import com.crud.demo.dto.LoginResponseDTO;
@@ -25,14 +27,18 @@ public class AuthServiceImpl implements AuthService {
   @Override
   public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
     User user = repository.findByEmail(loginRequestDTO.getEmail())
-        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        .orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.UNAUTHORIZED,
+            "Credenciales inválidas"));
 
     boolean isPasswordMatch = encoder.matches(
         loginRequestDTO.getPassword(),
         user.getPassword());
 
     if (!isPasswordMatch) {
-      throw new RuntimeException("Credenciales inválidas");
+      throw new ResponseStatusException(
+          HttpStatus.UNAUTHORIZED,
+          "Credenciales inválidas");
     }
 
     LoginResponseDTO response = new LoginResponseDTO();
