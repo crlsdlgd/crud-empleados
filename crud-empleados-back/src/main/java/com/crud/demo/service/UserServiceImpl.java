@@ -1,8 +1,9 @@
 package com.crud.demo.service;
 
-import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,14 +37,26 @@ public class UserServiceImpl implements UserService {
     this.passwordEncoder = passwordEncoder;
   }
 
+  // @Override
+  // public List<UserResponseDTO> getUsers() {
+  //   return userRepository.findAll() // trae List<Usuario>
+  //       .stream() // List<Usuario> se convierte en Stream<Usuario> para iterarlo con programacion
+  //                 // funcional (map, filter, ...)
+  //       .map(userMapper::entityToResponseDTO) // com .map iteramos cada empleado. con mapper convertimos Usuario a
+  //       // UsuarioDTO | Stream<Usuario> -> Stream<UsuarioDTO>
+  //       .toList(); // transformamos Stream<UsuarioDTO> a List<UsuarioDTO>
+  // }
+
   @Override
-  public List<UserResponseDTO> getUsers() {
-    return userRepository.findAll() // trae List<Usuario>
-        .stream() // List<Usuario> se convierte en Stream<Usuario> para iterarlo con programacion
-                  // funcional (map, filter, ...)
-        .map(userMapper::entityToResponseDTO) // com .map iteramos cada empleado. con mapper convertimos Usuario a
-        // UsuarioDTO | Stream<Usuario> -> Stream<UsuarioDTO>
-        .toList(); // transformamos Stream<UsuarioDTO> a List<UsuarioDTO>
+  public Page<UserResponseDTO> getUsers(String search, Pageable pageable) {
+    Page<User> users;
+    if (search == null || search.isBlank()){
+      users = userRepository.findAll(pageable);
+    }
+    else{
+      users = userRepository.findByNombreContainingIgnoreCaseOrEmailContainingIgnoreCase(search, search, pageable);
+    }
+    return users.map(userMapper::entityToResponseDTO);
   }
 
   @Override
