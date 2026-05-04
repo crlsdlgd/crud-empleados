@@ -16,7 +16,8 @@ public class UserMapper {
       user.getId(), 
       user.getNombre(), 
       user.getApellido(), 
-      user.getEmail()
+      user.getEmail(),
+      user.getFechaNacimiento()
     );
   }
 
@@ -26,6 +27,7 @@ public class UserMapper {
     user.setApellido(userDTO.getApellido());
     user.setEmail(userDTO.getEmail());
     user.setPassword(userDTO.getPassword());
+    user.setFechaNacimiento(userDTO.getFechaNacimiento());
 
     user.setStatus(true);
     user.setCreatedAt(new Date());

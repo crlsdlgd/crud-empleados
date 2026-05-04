@@ -1,5 +1,6 @@
 package com.crud.demo.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,6 +39,9 @@ public class User {
 	@Column(name = "password", nullable = false)
 	private String password;
 
+	@Column(name = "fecha_nacimiento")
+	private LocalDate fechaNacimiento;
+
 	@Column(name = "created_at", length = 60, nullable = false)
 	private Date createdAt;
 
@@ -54,7 +58,7 @@ public class User {
 	public User() {
 	}
 
-	public User(String nombre, String apellido, String email, Boolean status, String password, Date createdAt,
+	public User(String nombre, String apellido, String email, Boolean status, String password, LocalDate fechaNacimiento, Date createdAt,
 			Date updatedAt) {
 		super();
 		this.nombre = nombre;
@@ -62,6 +66,7 @@ public class User {
 		this.email = email;
 		this.status = status;
 		this.password = password;
+		this.fechaNacimiento = fechaNacimiento;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
@@ -114,6 +119,14 @@ public class User {
 		this.password = password;
 	}
 
+	public LocalDate getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -149,6 +162,6 @@ public class User {
 	@Override
 	public String toString() {
 		return "Empleado{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", status="
-				+ status + ", password=" + password + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
+				+ status + ", password=" + password + ", fechaNacimiento=" + fechaNacimiento + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
 	}
 }

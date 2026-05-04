@@ -1,20 +1,24 @@
 package com.crud.demo.dto;
 
+import java.time.LocalDate;
+
 public class UserResponseDTO {
   
   private Long id;
   private String nombre;
   private String apellido;
   private String email;
+  private LocalDate fechaNacimiento;
   
   public UserResponseDTO() {
   }
   
-  public UserResponseDTO(Long id, String nombre, String apellido, String email) {
+  public UserResponseDTO(Long id, String nombre, String apellido, String email, LocalDate fechaNacimiento) {
     this.id = id;
     this.nombre = nombre;
     this.apellido = apellido;
     this.email = email;
+    this.fechaNacimiento = fechaNacimiento;
   }
   
   public Long getId() {
@@ -47,5 +51,13 @@ public class UserResponseDTO {
   
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public LocalDate getFechaNacimiento() {
+    return fechaNacimiento;
+  }
+  
+  public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    this.fechaNacimiento = fechaNacimiento;
   }
 }

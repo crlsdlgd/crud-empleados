@@ -1,19 +1,23 @@
 package com.crud.demo.dto;
 
+import java.time.LocalDate;
+
 public class UserCreateDTO {
   private String nombre;
   private String apellido;
   private String email;
   private String password;
+  private LocalDate fechaNacimiento;
 
   public UserCreateDTO() {
   }
 
-  public UserCreateDTO (String nombre, String apellido, String email, String password) {
+  public UserCreateDTO (String nombre, String apellido, String email, String password, LocalDate fechaNacimiento) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.email = email;
     this.password = password;
+    this.fechaNacimiento = fechaNacimiento;
   }
 
   public String getNombre(){
@@ -46,5 +50,13 @@ public class UserCreateDTO {
 
   public void setpassword(String password){
     this.password = password;
+  }
+
+  public LocalDate getFechaNacimiento() {
+    return fechaNacimiento;
+  }
+  
+  public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    this.fechaNacimiento = fechaNacimiento;
   }
 }
