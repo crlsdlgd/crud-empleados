@@ -9,7 +9,7 @@ import com.crud.demo.dto.UserResponseDTO;
 
 public interface UserService {
 
-  Page<UserResponseDTO> getUsers(String search, Pageable pageable);
+  Page<UserResponseDTO> getUsers(String search, Integer minEdad, Integer maxEdad, Pageable pageable);
 
   UserResponseDTO createUser(UserCreateDTO userCreateDTO);
 

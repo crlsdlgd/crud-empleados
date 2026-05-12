@@ -2,8 +2,9 @@ package com.crud.demo.controller;
 
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,10 +33,33 @@ public class UserController {
   @GetMapping
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<Page<UserResponseDTO>> getUsers(
-    @RequestParam(required = false) String search, 
-    @PageableDefault(size = 10, sort = "id") Pageable pageable
+    @RequestParam(required = false) 
+    String search,
+
+    @RequestParam(required = false)
+    Integer minEdad,
+
+    @RequestParam(required = false)
+    Integer maxEdad,
+
+    @RequestParam(defaultValue = "0")
+    int page,
+
+    @RequestParam(defaultValue = "10")
+    int size,
+
+    @RequestParam(defaultValue = "nombre,asc")
+    String[] sort
   ) {
-    Page<UserResponseDTO> users = service.getUsers(search, pageable);
+    Pageable pageable = PageRequest.of(
+      page,
+      size,
+      Sort.by(
+        Sort.Direction.fromString(sort[1]),
+        sort[0]
+      )
+    );
+    Page<UserResponseDTO> users = service.getUsers(search, minEdad, maxEdad, pageable);
     return ResponseEntity.ok(users);
   }
 

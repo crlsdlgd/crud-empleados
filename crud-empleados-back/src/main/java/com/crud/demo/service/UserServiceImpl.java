@@ -1,5 +1,6 @@
 package com.crud.demo.service;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -48,14 +49,21 @@ public class UserServiceImpl implements UserService {
   // }
 
   @Override
-  public Page<UserResponseDTO> getUsers(String search, Pageable pageable) {
-    Page<User> users;
-    if (search == null || search.isBlank()){
-      users = userRepository.findAll(pageable);
+  public Page<UserResponseDTO> getUsers(String search, Integer minEdad, Integer maxEdad, Pageable pageable) {
+    
+    LocalDate today = LocalDate.now();
+    LocalDate minBirthDate = null; 
+    LocalDate maxBirthDate = null; 
+
+    if (maxEdad != null) {
+      minBirthDate = today.minusYears(maxEdad);
     }
-    else{
-      users = userRepository.findByNombreContainingIgnoreCaseOrEmailContainingIgnoreCase(search, search, pageable);
+    
+    if (minEdad != null) {
+      maxBirthDate = today.minusYears(minEdad);
     }
+
+    Page<User> users = userRepository.searchUsers(search, minBirthDate, maxBirthDate, pageable);
     return users.map(userMapper::entityToResponseDTO);
   }
 
