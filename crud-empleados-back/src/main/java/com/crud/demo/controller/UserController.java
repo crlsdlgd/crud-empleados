@@ -19,6 +19,8 @@ import com.crud.demo.dto.UserCreateDTO;
 import com.crud.demo.dto.UserResponseDTO;
 import com.crud.demo.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/users")
 // @CrossOrigin(origins = "http://localhost:4200")
@@ -64,7 +66,7 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateDTO userCreateDTO) {
+  public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserCreateDTO userCreateDTO) {
     UserResponseDTO dto = service.createUser(userCreateDTO);
     return ResponseEntity.ok(dto);
   }

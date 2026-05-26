@@ -38,16 +38,6 @@ public class UserServiceImpl implements UserService {
     this.passwordEncoder = passwordEncoder;
   }
 
-  // @Override
-  // public List<UserResponseDTO> getUsers() {
-  //   return userRepository.findAll() // trae List<Usuario>
-  //       .stream() // List<Usuario> se convierte en Stream<Usuario> para iterarlo con programacion
-  //                 // funcional (map, filter, ...)
-  //       .map(userMapper::entityToResponseDTO) // com .map iteramos cada empleado. con mapper convertimos Usuario a
-  //       // UsuarioDTO | Stream<Usuario> -> Stream<UsuarioDTO>
-  //       .toList(); // transformamos Stream<UsuarioDTO> a List<UsuarioDTO>
-  // }
-
   @Override
   public Page<UserResponseDTO> getUsers(String search, Integer minEdad, Integer maxEdad, Pageable pageable) {
     
@@ -70,7 +60,10 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserResponseDTO createUser(UserCreateDTO userCreateDTO) {
     if (userRepository.existsByEmail(userCreateDTO.getEmail())) {
-      throw new RuntimeException("email already exists");
+      throw new ResponseStatusException(
+      HttpStatus.BAD_REQUEST,
+      "Email ya registrado"
+);
     }
     User user = userMapper.createDtoToEntity(userCreateDTO);
     user.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
